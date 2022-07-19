@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('type');
             $table->boolean('status');
-            $table->double('price');
+            $table->double('buy_price');
+            $table->double('rent_price');
             $table->text('description');
             $table->timestamps();
         });

@@ -30,7 +30,8 @@ class StoreFacilityRequest extends FormRequest
             'description'   => 'required|string',
             'type'   => 'required|string',
             'status'   => 'boolean|nullable',
-            'price'   => 'required|numeric',
+            'buy_price'   => 'required|numeric',
+            'rent_price'   => 'required|numeric',
             "points"    => "required|array|min:2",
             "points.*"  => "required|",
         ];
@@ -43,10 +44,9 @@ class StoreFacilityRequest extends FormRequest
             'type' => 'facility type',
             'description' => 'facility description',
             'status'   => 'facility status',
-            'price'   => 'facility price',
+            'buy_price'   => 'facility Buy price',
+            'rent_price'   => 'facility Rent price',
             "points"    => "facility points",
-
-            // "points.*"  => "required|",
         ];
     }
 }

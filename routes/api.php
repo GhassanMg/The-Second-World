@@ -34,8 +34,9 @@ Route::delete('deletefacility/{id}', [FacilityController::class, 'destroy']);
 
 Route::post('addpoints', [PointsController::class, 'store']);
 Route::get('allpoints', [PointsController::class, 'index']);
-});
+
 Route::post('addfacilityrequest', [FacilityRequestController::class, 'store']);
+});
 
 
 //Route::get('users',[UserController::class,'index']);

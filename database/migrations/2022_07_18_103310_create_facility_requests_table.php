@@ -18,6 +18,9 @@ class CreateFacilityRequestsTable extends Migration
             $table->foreignId('facility_id');
             $table->foreignId('user_id');
             $table->enum('type',['buy','rent']);
+            $table->enum('status',['accepted','rejected','pending']);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
         });
     }
 
