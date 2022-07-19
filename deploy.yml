@@ -1,0 +1,17 @@
+import:
+  - recipe/laravel.php
+
+config:
+  application: 'laravel-test'
+  repository: 'git@gitlab.com:basharqarat1/test.git'
+
+hosts:
+  prod:
+    deploy_path: '~/{{application}}'
+
+#tasks:
+#  build:
+#    - run: 'cd {{release_path}} && npm run build'
+
+after:
+  deploy:failed: deploy:unlock
