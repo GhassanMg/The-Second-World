@@ -46,7 +46,7 @@ class FacilityController extends Controller
             $newpoint->facility_id = $newFacility->id;
             $newpoint->save();
         }
-        return ApiResponseClass::successMsgResponse('added successfully');
+        return ApiResponseClass::successMsgResponse('Facility Added Successfully');
     }
     public function buy($id,$user){
         $facility = Facility::where('id',$id)->first();

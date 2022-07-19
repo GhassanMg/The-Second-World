@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFacilityRequestRequest;
 use App\Models\Facility_Request;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FacilityRequestController extends Controller
 {
@@ -27,7 +28,9 @@ class FacilityRequestController extends Controller
      */
     public function store(StoreFacilityRequestRequest $request)
     {
+        dd($request);
         $fac_Req = $request->validate();
+        $fac_Req['user_id'] = Auth::id();
         Facility_Request::create($fac_Req);
     }
 

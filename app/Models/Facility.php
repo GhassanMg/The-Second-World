@@ -21,7 +21,8 @@ class Facility extends Model
     protected $fillable = [
         'name',
         'status',
-        'price',
+        'buy_price',
+        'rent_price',
         'description',
         'type',
     ];

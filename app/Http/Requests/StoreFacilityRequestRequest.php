@@ -25,7 +25,7 @@ class StoreFacilityRequestRequest extends FormRequest
     {
         return [
             'facility_id' => 'required|exists:facilities,id',
-            'user_id' => 'required|exists:users,id',
+            //'user_id' => 'required|exists:users,id',
             'type' => 'required|in:buy,rent',
             'status' => 'required|in:accepted,rejected,pending',
             'start_date' => 'required_if:type,==,rent',
@@ -36,7 +36,7 @@ class StoreFacilityRequestRequest extends FormRequest
     {
         return [
             'facility_id' => 'The facility id',
-            'user_id' => 'The user id',
+            //'user_id' => 'The user id',
             'type' => 'Type of request',
             'status' => 'Status of request',
             'start_date' => 'Start Date',
