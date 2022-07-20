@@ -28,8 +28,8 @@ class StoreFacilityRequestRequest extends FormRequest
             //'user_id' => 'required|exists:users,id',
             'type' => 'required|in:buy,rent',
             'status' => 'required|in:accepted,rejected,pending',
-            'start_date' => 'required_if:type,==,rent',
-            'end_date' => 'required_if:type,==,rent|after:start_date',
+            'start_date' => 'required_if:type,==,rent|nullable|date',
+            'end_date' => 'required_with:start_date|nullable|after:start_date|date',
         ];
     }
     public function attributes()
