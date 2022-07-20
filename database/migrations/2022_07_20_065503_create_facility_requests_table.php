@@ -21,6 +21,7 @@ class CreateFacilityRequestsTable extends Migration
             $table->enum('status',['accepted','rejected','pending']);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->timestamps();
         });
     }
 

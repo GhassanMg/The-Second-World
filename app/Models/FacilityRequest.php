@@ -5,9 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Facility_Request extends Model
+class FacilityRequest extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = [
+        'facility_id',
+        'user_id',
+        'type',
+        'status',
+        'start_date',
+        'end_date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

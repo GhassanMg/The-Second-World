@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFacilityRequestRequest;
-use App\Models\Facility_Request;
+use App\Http\Requests\UpdateFacilityRequest;
+use App\Http\Requests\UpdateFacilityRequestStatus;
+use App\Http\Resources\FacilityRequestResource;
+use App\Models\FacilityRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +21,11 @@ class FacilityRequestController extends Controller
      */
     public function index()
     {
-        //
+        $fac_requests = FacilityRequest::all();
+        if($fac_requests->is_empty()){
+            return ApiResponseClass::notFoundResponse('There is no requests yet');
+        }
+        return ApiResponseClass::successResponse(FacilityRequestResource::collection( $fac_requests));
     }
 
     /**
@@ -28,10 +36,10 @@ class FacilityRequestController extends Controller
      */
     public function store(StoreFacilityRequestRequest $request)
     {
-        dd($request);
-        $fac_Req = $request->validate();
+        $fac_Req = $request->validated();
         $fac_Req['user_id'] = Auth::id();
-        Facility_Request::create($fac_Req);
+        $new_req = FacilityRequest::create($fac_Req);
+        return ApiResponseClass::successResponse(new FacilityRequestResource( $new_req));
     }
 
     /**
@@ -42,7 +50,12 @@ class FacilityRequestController extends Controller
      */
     public function show($id)
     {
-        //
+        $fac_reqs = FacilityRequest::where('facility_id','=',$id)->get();
+        if(!$fac_reqs->isEmpty()){
+        return ApiResponseClass::successResponse(FacilityRequestResource::collection($fac_reqs));
+        }else{
+            return ApiResponseClass::notFoundResponse('There is no requests for this facility');
+        }
     }
 
     /**
@@ -52,9 +65,11 @@ class FacilityRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFacilityRequestStatus $request, $id)
     {
-        //
+        $fac_req = FacilityRequest::findOrFail($id);
+        $fac_req->update($request->validated());
+        return ApiResponseClass::successMsgResponse('Request Updated Successfully');
     }
 
     /**
