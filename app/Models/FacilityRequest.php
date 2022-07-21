@@ -9,7 +9,6 @@ class FacilityRequest extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'facility_id',
         'user_id',

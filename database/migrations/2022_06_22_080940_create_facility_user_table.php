@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('facility_user', function (Blueprint $table) {
             $table->foreignId('facility_id');
             $table->foreignId('user_id');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
         });
     }
 

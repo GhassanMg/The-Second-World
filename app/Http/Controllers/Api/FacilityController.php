@@ -67,8 +67,6 @@ class FacilityController extends Controller
      */
     public function show($id)
     {
-        dd(auth()->user());
-        dd(Auth::user());
         $facility = Facility::where('id',$id)->with('points')->get();
         if($facility->isEmpty()){
             return ApiResponseClass::notFoundResponse();
