@@ -54,4 +54,10 @@ class UserAuthController extends Controller
 
      return response()->json(['user' => $user], 200);
     }
+
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+        return ApiResponseClass::successMsgResponse('Successfully logged out');
+    }
 }
