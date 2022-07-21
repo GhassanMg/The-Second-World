@@ -8,6 +8,7 @@ use App\Http\Requests\StoreFacilityRequestRequest;
 use App\Http\Requests\UpdateFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequestStatus;
 use App\Http\Resources\FacilityRequestResource;
+use App\Models\Facility;
 use App\Models\Facility_User;
 use App\Models\FacilityRequest;
 use App\Models\Type;
@@ -24,10 +25,10 @@ class FacilityRequestController extends Controller
     public function index()
     {
         $fac_requests = FacilityRequest::all();
-        if($fac_requests->is_empty()){
+        if ($fac_requests->is_empty()) {
             return ApiResponseClass::notFoundResponse('There is no requests yet');
         }
-        return ApiResponseClass::successResponse(FacilityRequestResource::collection( $fac_requests));
+        return ApiResponseClass::successResponse(FacilityRequestResource::collection($fac_requests));
     }
 
     /**
@@ -41,7 +42,7 @@ class FacilityRequestController extends Controller
         $fac_Req = $request->validated();
         $fac_Req['user_id'] = Auth::id();
         $new_req = FacilityRequest::create($fac_Req);
-        return ApiResponseClass::successResponse(new FacilityRequestResource( $new_req));
+        return ApiResponseClass::successResponse(new FacilityRequestResource($new_req));
     }
 
     /**
@@ -52,11 +53,15 @@ class FacilityRequestController extends Controller
      */
     public function show($id)
     {
-        $fac_reqs = FacilityRequest::where('facility_id','=',$id)->get();
-        if(!$fac_reqs->isEmpty()){
-        return ApiResponseClass::successResponse(FacilityRequestResource::collection($fac_reqs));
+        if (!is_null(Facility::find($id))) {
+            $fac_reqs = FacilityRequest::where('facility_id', '=', $id)->get();
+            if (!$fac_reqs->isEmpty()) {
+                return ApiResponseClass::successResponse(FacilityRequestResource::collection($fac_reqs));
+            } else {
+                return ApiResponseClass::notFoundResponse('There is no requests for this facility');
+            }
         }else{
-            return ApiResponseClass::notFoundResponse('There is no requests for this facility');
+            return ApiResponseClass::notFoundResponse('Facility Not Found');
         }
     }
 
@@ -71,22 +76,22 @@ class FacilityRequestController extends Controller
     {
         $fac_req = FacilityRequest::findOrFail($id);
         $fac_req->update($request->validated());
-        //dd($fac_req);
+
         $fac_user = new Facility_User();
         $fac_user->facility_id = $fac_req->facility_id;
         $fac_user->user_id = $fac_req->user_id;
         $fac_user->start_date = $fac_req->start_date;
         $fac_user->end_date = $fac_req->end_date;
         $fac_user->save();
-        //dd($fac_user);
+
         $owner_type = new Type();
-        if($fac_req->status == 'accepted' && $fac_req->type == 'buy'){
+        if ($fac_req->status == 'accepted' && $fac_req->type == 'buy') {
             $owner_type->type = 'owner';
-        }else{
+        } else {
             $owner_type->type = 'renter';
         }
         $owner_type->save();
-        dd($owner_type);
+
         return ApiResponseClass::successMsgResponse('Request Updated Successfully');
     }
 
